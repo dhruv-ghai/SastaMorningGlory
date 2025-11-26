@@ -42,5 +42,14 @@ const start = async () => {
   app.listen(env.port, () => console.log(`API running on port ${env.port}`));
 };
 
-start();
+// Only start server if not in Vercel serverless environment
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+  start();
+} else {
+  // For Vercel, just connect to DB
+  connectDB();
+}
+
+// Export for Vercel serverless
+export default app;
 
